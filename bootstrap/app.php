@@ -2,6 +2,10 @@
 
 require_once __DIR__.'/../vendor/autoload.php';
 
+// As Stitcher appears to return timestamps relative to the Pacific
+// Timezone, treat all dates as Pacific.
+date_default_timezone_set('America/Los_Angeles');
+
 (new Laravel\Lumen\Bootstrap\LoadEnvironmentVariables(
     dirname(__DIR__)
 ))->bootstrap();
@@ -21,9 +25,9 @@ $app = new Laravel\Lumen\Application(
     dirname(__DIR__)
 );
 
-// $app->withFacades();
+$app->withFacades();
 
-// $app->withEloquent();
+$app->withEloquent();
 
 /*
 |--------------------------------------------------------------------------
@@ -57,13 +61,14 @@ $app->singleton(
 |
 */
 
-// $app->middleware([
-//     App\Http\Middleware\ExampleMiddleware::class
-// ]);
+$app->middleware([
+    App\Http\Middleware\CheckBlockedClient::class,
+    App\Http\Middleware\User::class,
+]);
 
-// $app->routeMiddleware([
-//     'auth' => App\Http\Middleware\Authenticate::class,
-// ]);
+$app->routeMiddleware([
+    'auth' => App\Http\Middleware\Authenticate::class,
+]);
 
 /*
 |--------------------------------------------------------------------------
@@ -96,5 +101,19 @@ $app->router->group([
 ], function ($router) {
     require __DIR__.'/../routes/web.php';
 });
+
+config([
+    'services' => [
+        'stitcher' => [
+            'url' => env('STITCHER_URL', 'https://stitcher.com/Service/'),
+
+            // Used to encrypt API parameters
+            'secret' => env('STITCHER_SECRET'),
+
+            // Device to use when communicating
+            'device' => env('STITCHER_DEVICE', 'abcde'),
+        ],
+    ],
+]);
 
 return $app;

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
 |--------------------------------------------------------------------------
@@ -11,6 +11,25 @@
 |
 */
 
-$router->get('/', function () use ($router) {
-    return $router->app->version();
+$router->get('/', 'ControllerController@landing');
+$router->get('/login', 'UserController@login');
+$router->post('/login', 'UserController@login');
+$router->get('/logout', 'UserController@logout');
+
+$router->group(['middleware' => 'auth:session'], function () use ($router) {
+    $router->get('/shows', 'ShowController@shows');
+    $router->addRoute(['GET', 'POST'], '/search', 'ShowController@search');
 });
+
+$router->group(['middleware' => 'auth:basic'], function () use ($router) {
+    $router->get('/shows/{show_id}/feed', 'ShowController@feed');
+});
+
+$router->group(['middleware' => 'auth:route'], function () use ($router) {
+    $router->get(
+        '/shows/{show_id}/episodes/{rss_user}/{rss_pass}/{episode_id}.mp3',
+        'ShowController@episode'
+    );
+});
+
+$router->get('/metrics', 'MetricController@index');

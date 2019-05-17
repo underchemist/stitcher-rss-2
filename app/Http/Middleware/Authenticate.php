@@ -1,44 +1,30 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Http\Middleware;
 
-use Closure;
-use Illuminate\Contracts\Auth\Factory as Auth;
+use Illuminate\Http\Request;
 
 class Authenticate
 {
     /**
-     * The authentication guard factory instance.
-     *
-     * @var \Illuminate\Contracts\Auth\Factory
-     */
-    protected $auth;
-
-    /**
-     * Create a new middleware instance.
-     *
-     * @param  \Illuminate\Contracts\Auth\Factory  $auth
-     * @return void
-     */
-    public function __construct(Auth $auth)
-    {
-        $this->auth = $auth;
-    }
-
-    /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @param  string|null  $guard
      * @return mixed
      */
-    public function handle($request, Closure $next, $guard = null)
+    public function handle(Request $request, \Closure $next, string $type)
     {
-        if ($this->auth->guard($guard)->guest()) {
-            return response('Unauthorized.', 401);
+        if ($request->user() && $request->user()->hasPremium()) {
+            return $next($request);
         }
 
-        return $next($request);
+        if (in_array($type, ['basic', 'route'])) {
+            $headers = [
+                'WWW-Authenticate' => 'Basic realm="Unofficial RSS Feeds for Stitcher Premium"'
+            ];
+
+            return response("Unauthorized\n", 401, $headers);
+        } else {
+            return redirect('/login', 302);
+        }
     }
 }
