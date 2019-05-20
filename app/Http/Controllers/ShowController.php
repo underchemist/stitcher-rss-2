@@ -6,6 +6,8 @@ use App\Feed;
 use App\Stitcher\Api;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\Controller;
+use Illuminate\Support\Facades\Log;
+use GuzzleHttp\Exception\ConnectException;
 
 class ShowController extends Controller
 {
@@ -43,7 +45,7 @@ class ShowController extends Controller
                     'c' => 50, // count
                 ]
             ]);
-        } catch (RequestException $ex) {
+        } catch (RequestException | ConnectException $ex) {
             Log::notice("Search issue: " . $ex->getMessage());
             return null;
         }

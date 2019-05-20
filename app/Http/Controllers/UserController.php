@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Stitcher\Api;
 use Adduc\Stitcher\Password;
 use App\User as User;
+use GuzzleHttp\Exception\ConnectException;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends BaseController
 {
@@ -43,7 +45,7 @@ class UserController extends BaseController
                     'epx' => $password,
                 ]
             ]);
-        } catch (RequestException $ex) {
+        } catch (RequestException | ConnectException $ex) {
             Log::notice("CheckAuthentication issue: " . $ex->getMessage());
             return "Stitcher appears to be having trouble. Please try again.";
         }
