@@ -4,10 +4,11 @@ namespace App\Stitcher;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
+use App\User;
 
 class Api extends Client
 {
-    public function __construct(array $config = [])
+    public function __construct(?User $user, array $config = [])
     {
         $config += [
             'base_uri' => config('services.stitcher.url'),
@@ -19,7 +20,7 @@ class Api extends Client
 
         if (!isset($config['handler'])) {
             $config['handler'] = HandlerStack::create();
-            $config['handler']->unshift(new ParametersMiddleware($config));
+            $config['handler']->unshift(new ParametersMiddleware($user));
         }
 
         parent::__construct($config);

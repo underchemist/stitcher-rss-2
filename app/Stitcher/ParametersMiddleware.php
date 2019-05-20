@@ -2,6 +2,7 @@
 
 namespace App\Stitcher;
 
+use App\User;
 use Psr\Http\Message\RequestInterface;
 use function GuzzleHttp\Psr7\parse_query;
 use function GuzzleHttp\Psr7\build_query;
@@ -10,6 +11,14 @@ class ParametersMiddleware
 {
     /** @var callable */
     protected $handler;
+
+    /** @var ?User */
+    protected $user;
+
+    public function __construct(?User $user)
+    {
+        $this->user = $user;
+    }
 
     public function __invoke(callable $handler)
     {
@@ -28,6 +37,10 @@ class ParametersMiddleware
             'mode' => 'android',
             'udid' => config('services.stitcher.device'),
         ];
+
+        if ($this->user !== null) {
+            $query['uid'] = $this->user->stitcher_id;
+        }
 
         $uri = $request->getUri()->withQuery(build_query($query));
         $request = $request->withUri($uri);

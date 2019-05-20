@@ -12,8 +12,7 @@ class UserController extends BaseController
 {
     public function login(Request $request, Api $api, Password $password)
     {
-        // @todo Switch to a session object through DI
-        session_start();
+        $result = null;
 
         if ($request->isMethod('post')) {
             $result = $this->attempt($request, $api, $password);
@@ -23,7 +22,7 @@ class UserController extends BaseController
             }
         }
 
-        return view('login', ['result' => $result]);
+        return view('login', ['notice' => $result]);
     }
 
     protected function attempt(Request $request, Api $api, Password $password)
@@ -32,6 +31,10 @@ class UserController extends BaseController
 
         $email = $request->input('email');
         $password = $password->encrypt($device_id, $request->input('password'));
+
+        if (!$email || !$password) {
+            return "Both email and password is required.";
+        }
 
         try {
             $response = $api->post('CheckAuthentication.php', [
@@ -80,13 +83,20 @@ class UserController extends BaseController
             $user->save();
         }
 
+        if (session_status() != PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+
         $_SESSION['user'] = $user;
         return true;
     }
 
     public function logout()
     {
-        session_start();
+        if (session_status() != PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+
         session_destroy();
         return redirect('/');
     }

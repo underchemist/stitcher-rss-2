@@ -2,11 +2,11 @@
 
 namespace App\Providers;
 
-use App\Application;
-use App\Auth\User;
-use Illuminate\Support\ServiceProvider;
 use App\Auth\UserManager;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\ServiceProvider;
+use Laravel\Lumen\Application;
 
 class UserProvider extends ServiceProvider
 {

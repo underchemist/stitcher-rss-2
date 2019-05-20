@@ -11,7 +11,8 @@
 |
 */
 
-$router->get('/', 'ControllerController@landing');
+$router->get('/', 'PageController@index');
+
 $router->get('/login', 'UserController@login');
 $router->post('/login', 'UserController@login');
 $router->get('/logout', 'UserController@logout');

@@ -30,7 +30,7 @@ class UserManager
         return $_SESSION['user'];
     }
 
-    public function resolveFromBasicAuth(Request $request): ?array
+    public function resolveFromBasicAuth(Request $request): ?User
     {
         $user = $request->getUser();
         $pass = $request->getPassword();
@@ -38,7 +38,7 @@ class UserManager
         return $this->getUser($user, $pass);
     }
 
-    public function resolveFromRoute(Request $request): ?array
+    public function resolveFromRoute(Request $request): ?User
     {
         $user = $request->route()[2]['rss_user'] ?? null;
         $pass = $request->route()[2]['rss_pass'] ?? null;
@@ -46,7 +46,7 @@ class UserManager
         return $this->getUser($user, $pass);
     }
 
-    protected function getUser($user, $pass): ?array
+    protected function getUser($user, $pass): ?User
     {
         if (!$user || !$pass) {
             return null;
