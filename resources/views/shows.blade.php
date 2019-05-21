@@ -1,5 +1,10 @@
 @extends('layout')
-
+<?php
+$user = app(\App\User::class);
+$protocol = !empty($_SERVER['HTTPS']) ? 'https' : 'http';
+$domain = $_SERVER['HTTP_HOST'];
+$base_uri = "{$protocol}://{$user->rss_user}:{$user->rss_password}@{$domain}";
+?>
 @section('content')
 
 <form method="get" action="/shows">
@@ -9,8 +14,8 @@
 
 <ul>
     @foreach($feeds as $feed)
-        <li><a href="/shows/{{ $feed->id }}/feed">{{ $feed->title }}</a></li>
-
-@endforeach
+        <li><a href="{{ $base_uri }}/shows/{{ $feed->id }}/feed">{{ $feed->title }}</a></li>
+    @endforeach
+</ul>
 
 @endsection
