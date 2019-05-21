@@ -3,9 +3,10 @@
 namespace App\Action;
 
 use App\Feed;
-use App\Stitcher\Api;
-use Illuminate\Support\Carbon;
 use App\Item;
+use App\Stitcher\Api;
+use ForceUTF8\Encoding;
+use Illuminate\Support\Carbon;
 
 class RefreshShow
 {
@@ -17,16 +18,19 @@ class RefreshShow
         $this->client = $client;
     }
 
-    public function refresh(Feed $feed)
+    public function refresh(Feed $feed, ?int $user_id = null)
     {
+        $query = ['fid' => $feed->id];
+
+        if ($user_id !== null) {
+            $query['uid'] = $user_id;
+        }
+
         $response = $this->client->get('GetFeedDetailsWithEpisodes.php', [
-            'query' => [
-                'fid' => $feed->id,
-            ]
+            'query' => $query
         ]);
 
         $response = new \SimpleXMLElement($response->getBody()->__toString());
-
 
         $this->processFeed($feed, $response->feed);
         $this->processItems($feed, $response->episodes->episode);
@@ -37,7 +41,7 @@ class RefreshShow
         $feed->title = (string)$response->name;
         $feed->description = (string)$response->description;
         $feed->image_url = (string)$response['imageURL'];
-        $feed->is_premium = (bool)$response['premium'];
+        $feed->is_premium = (bool)$response['premium']->__toString();
         $feed->last_refresh = Carbon::now();
 
         $feed->save();
@@ -51,7 +55,6 @@ class RefreshShow
         $items = $feed->items->keyBy('id');
 
         foreach ($episodes as $xml_item) {
-
             $id = (int)$xml_item['id'];
             $item = $items->get($id) ?? Item::make();
 
@@ -62,6 +65,11 @@ class RefreshShow
             $item->pub_date = Carbon::make((string)$xml_item['published']);
             $item->itunes_duration = (int)$xml_item['duration'];
             $item->enclosure_url = (string)$xml_item['url'];
+
+            // Attempt to force conversion of input into UTF8
+            $item->description = str_replace(chr(194), "", $item->description ?? '');
+            $item->description = Encoding::toUTF8($item->description, Encoding::ICONV_IGNORE);
+            $item->description = Encoding::fixUTF8($item->description, Encoding::ICONV_IGNORE);
 
             $item->save();
 

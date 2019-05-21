@@ -1,13 +1,15 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Action\RefreshShow;
 use App\Feed;
 use App\Stitcher\Api;
-use Illuminate\Http\Request;
-use Laravel\Lumen\Routing\Controller;
-use Illuminate\Support\Facades\Log;
 use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\RequestException;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Laravel\Lumen\Routing\Controller;
 
 class ShowController extends Controller
 {
@@ -66,7 +68,7 @@ class ShowController extends Controller
         $feeds = [];
 
         foreach ($xml->feed as $feed) {
-            if (!(int)$feed['premium']) {
+            if (!(bool)$feed['premium']->__toString()) {
                 continue;
             }
 
@@ -75,16 +77,42 @@ class ShowController extends Controller
                 'title' => (string)$feed->name,
                 'description' => (string)$feed->description,
                 'image_url' => (string)$feed['imageURL'],
-                'is_premium' => (bool)$feed['premium'],
             ]);
         }
 
         return $feeds;
     }
 
-    public function feed()
+    public function feed(int $feed_id, RefreshShow $refresh)
     {
-        throw new \Exception("To Implement");
+        if (!$feed_id) {
+            abort(404);
+        }
+
+        $feed = Feed::find($feed_id);
+
+        if (!$feed) {
+            $feed = Feed::make(['id' => $feed_id]);
+
+            try {
+                $refresh->refresh($feed);
+            } catch (RequestException | ConnectException $ex) {
+                Log::notice("Refresh issue: " . $ex->getMessage());
+                return response("We had an issue reaching Stitcher.", 503);
+            }
+        }
+
+        if (!$feed->is_premium) {
+            return response("Show is not premium. Please fetch from the original provider.", 404);
+        }
+
+        $feed->load('items');
+
+        return response(
+            view('feed', ['feed' => $feed]),
+            200,
+            ['Content-Type' => 'text/xml']
+        );
     }
 
     public function episode()

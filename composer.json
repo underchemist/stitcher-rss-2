@@ -6,16 +6,20 @@
     "type": "project",
     "require": {
         "php": ">=7.1.3",
+        "adduc/cdata-simplexml": "^1.0",
         "adduc/stitcher-password": "^1.0",
         "guzzlehttp/guzzle": "^6.3",
         "laravel/lumen-framework": "5.8.*",
+        "neitanod/forceutf8": "^2.0",
         "vlucas/phpdotenv": "^3.3"
     },
     "require-dev": {
+        "adduc/coding-standards": "dev-master",
         "fzaninotto/faker": "^1.4",
         "jakub-onderka/php-parallel-lint": "^1.0",
         "mockery/mockery": "^1.0",
-        "phpunit/phpunit": "^7.0"
+        "phpunit/phpunit": "^7.0",
+        "squizlabs/php_codesniffer": "^3.4"
     },
     "autoload": {
         "classmap": [
@@ -34,6 +38,24 @@
     "scripts": {
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "ci": [
+            "@composer install",
+            "@lint",
+            "@test",
+            "@style"
+        ],
+        "lint": [
+            "parallel-lint -e 'php' --exclude 'vendor' ."
+        ],
+        "test": [
+            "phpunit"
+        ],
+        "style": [
+            "phpcs --standard=Adduc ."
+        ],
+        "style:fix": [
+            "phpcbf --standard=Adduc ."
         ]
     },
     "config": {
@@ -42,5 +64,11 @@
         "optimize-autoloader": true
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://gitlab.com/adduc-projects/php-coding-standards.git"
+        }
+    ]
 }

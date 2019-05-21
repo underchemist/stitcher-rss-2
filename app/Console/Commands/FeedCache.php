@@ -1,10 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Feed;
 use App\Action\RefreshShow;
+use App\User;
 
 class FeedCache extends Command
 {
@@ -55,6 +56,15 @@ class FeedCache extends Command
         $force = $this->option('force');
         $quick = $this->option('quick');
 
+        // Need to get a valid User's ID
+
+        $user = User::whereRaw('expiration > NOW()')->first();
+
+        if ($user === null) {
+            $this->error("Could not find a user with an active premium subscription.");
+            exit(1);
+        }
+
         if ($id) {
             $feed = Feed::firstOrNew(['id' => $id]);
 
@@ -63,7 +73,7 @@ class FeedCache extends Command
                 exit(1);
             }
 
-            return $this->action->refresh($feed, $force);
+            return $this->action->refresh($feed, $user->stitcher_id);
         }
 
         Feed::chunk(100, function ($feeds) use ($force, $quick) {
@@ -76,7 +86,7 @@ class FeedCache extends Command
                     $time = microtime(true);
                 }
 
-                $this->action->refresh($feed);
+                $this->action->refresh($feed, $user->stitcher_id);
 
                 if (!$quick) {
                     // Wait five seconds between refreshes

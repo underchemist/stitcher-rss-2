@@ -4,8 +4,45 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9696e8ff839e2eac3f25070662788187",
+    "content-hash": "ce60b6f4c0d8121974d3f0c49ac883e3",
     "packages": [
+        {
+            "name": "adduc/cdata-simplexml",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://gitlab.com/adduc-projects/cdata-simplexml.git",
+                "reference": "9534c9f552b3287a3a0aeba0c5b7b77583469f32"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://gitlab.com/api/v4/projects/adduc-projects%2Fcdata-simplexml/repository/archive.zip?sha=9534c9f552b3287a3a0aeba0c5b7b77583469f32",
+                "reference": "9534c9f552b3287a3a0aeba0c5b7b77583469f32",
+                "shasum": ""
+            },
+            "require": {
+                "ext-simplexml": "*",
+                "php": ">=7.0"
+            },
+            "require-dev": {
+                "adduc/coding-standards": "dev-master",
+                "jakub-onderka/php-parallel-lint": "^1.0",
+                "phpunit/phpunit": "^7.3",
+                "squizlabs/php_codesniffer": "^3.3"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Wrapper around SimpleXMLElement to provide cdata support.",
+            "time": "2018-08-05T08:51:18+00:00"
+        },
         {
             "name": "adduc/stitcher-password",
             "version": "1.0",
@@ -459,16 +496,16 @@
         },
         {
             "name": "illuminate/auth",
-            "version": "v5.8.15",
+            "version": "v5.8.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/auth.git",
-                "reference": "81dc4420f9d6f60755c4f6857d37366f2679f9d0"
+                "reference": "9dd8807f1ad16bdbf803721312bbbae46359bada"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/auth/zipball/81dc4420f9d6f60755c4f6857d37366f2679f9d0",
-                "reference": "81dc4420f9d6f60755c4f6857d37366f2679f9d0",
+                "url": "https://api.github.com/repos/illuminate/auth/zipball/9dd8807f1ad16bdbf803721312bbbae46359bada",
+                "reference": "9dd8807f1ad16bdbf803721312bbbae46359bada",
                 "shasum": ""
             },
             "require": {
@@ -506,11 +543,11 @@
             ],
             "description": "The Illuminate Auth package.",
             "homepage": "https://laravel.com",
-            "time": "2019-04-30T13:26:29+00:00"
+            "time": "2019-05-12T23:17:50+00:00"
         },
         {
             "name": "illuminate/broadcasting",
-            "version": "v5.8.15",
+            "version": "v5.8.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/broadcasting.git",
@@ -561,7 +598,7 @@
         },
         {
             "name": "illuminate/bus",
-            "version": "v5.8.15",
+            "version": "v5.8.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/bus.git",
@@ -606,7 +643,7 @@
         },
         {
             "name": "illuminate/cache",
-            "version": "v5.8.15",
+            "version": "v5.8.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/cache.git",
@@ -655,7 +692,7 @@
         },
         {
             "name": "illuminate/config",
-            "version": "v5.8.15",
+            "version": "v5.8.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/config.git",
@@ -699,7 +736,7 @@
         },
         {
             "name": "illuminate/console",
-            "version": "v5.8.15",
+            "version": "v5.8.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/console.git",
@@ -750,7 +787,7 @@
         },
         {
             "name": "illuminate/container",
-            "version": "v5.8.15",
+            "version": "v5.8.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/container.git",
@@ -795,16 +832,16 @@
         },
         {
             "name": "illuminate/contracts",
-            "version": "v5.8.15",
+            "version": "v5.8.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
-                "reference": "0b3cbe19051c9a8c247091cc0867d3b65250d093"
+                "reference": "acd524087bcebcc0979748e84ccc0876395ae497"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/contracts/zipball/0b3cbe19051c9a8c247091cc0867d3b65250d093",
-                "reference": "0b3cbe19051c9a8c247091cc0867d3b65250d093",
+                "url": "https://api.github.com/repos/illuminate/contracts/zipball/acd524087bcebcc0979748e84ccc0876395ae497",
+                "reference": "acd524087bcebcc0979748e84ccc0876395ae497",
                 "shasum": ""
             },
             "require": {
@@ -835,20 +872,20 @@
             ],
             "description": "The Illuminate Contracts package.",
             "homepage": "https://laravel.com",
-            "time": "2019-04-21T18:51:09+00:00"
+            "time": "2019-05-14T10:54:47+00:00"
         },
         {
             "name": "illuminate/database",
-            "version": "v5.8.15",
+            "version": "v5.8.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/database.git",
-                "reference": "f01892d98d2547deb835ea95c554ee3299a3a0d6"
+                "reference": "6bcfc3a0baf19406ad0bb470193c2b64eeefa510"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/database/zipball/f01892d98d2547deb835ea95c554ee3299a3a0d6",
-                "reference": "f01892d98d2547deb835ea95c554ee3299a3a0d6",
+                "url": "https://api.github.com/repos/illuminate/database/zipball/6bcfc3a0baf19406ad0bb470193c2b64eeefa510",
+                "reference": "6bcfc3a0baf19406ad0bb470193c2b64eeefa510",
                 "shasum": ""
             },
             "require": {
@@ -895,11 +932,11 @@
                 "orm",
                 "sql"
             ],
-            "time": "2019-04-30T14:02:59+00:00"
+            "time": "2019-05-13T15:56:41+00:00"
         },
         {
             "name": "illuminate/encryption",
-            "version": "v5.8.15",
+            "version": "v5.8.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/encryption.git",
@@ -946,7 +983,7 @@
         },
         {
             "name": "illuminate/events",
-            "version": "v5.8.15",
+            "version": "v5.8.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/events.git",
@@ -991,16 +1028,16 @@
         },
         {
             "name": "illuminate/filesystem",
-            "version": "v5.8.15",
+            "version": "v5.8.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/filesystem.git",
-                "reference": "e3c7302b147704420041c07aac538b9de67ebb8f"
+                "reference": "6fb134b981a01fca0b44b30c1bf434d157594d53"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/filesystem/zipball/e3c7302b147704420041c07aac538b9de67ebb8f",
-                "reference": "e3c7302b147704420041c07aac538b9de67ebb8f",
+                "url": "https://api.github.com/repos/illuminate/filesystem/zipball/6fb134b981a01fca0b44b30c1bf434d157594d53",
+                "reference": "6fb134b981a01fca0b44b30c1bf434d157594d53",
                 "shasum": ""
             },
             "require": {
@@ -1039,11 +1076,11 @@
             ],
             "description": "The Illuminate Filesystem package.",
             "homepage": "https://laravel.com",
-            "time": "2019-04-08T12:56:11+00:00"
+            "time": "2019-05-14T16:00:56+00:00"
         },
         {
             "name": "illuminate/hashing",
-            "version": "v5.8.15",
+            "version": "v5.8.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/hashing.git",
@@ -1087,16 +1124,16 @@
         },
         {
             "name": "illuminate/http",
-            "version": "v5.8.15",
+            "version": "v5.8.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/http.git",
-                "reference": "c4a4db1ff72d2344e9fef585128a6792aceb8d2d"
+                "reference": "d2f26549660558122dbfeff4c128c71da2322879"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/http/zipball/c4a4db1ff72d2344e9fef585128a6792aceb8d2d",
-                "reference": "c4a4db1ff72d2344e9fef585128a6792aceb8d2d",
+                "url": "https://api.github.com/repos/illuminate/http/zipball/d2f26549660558122dbfeff4c128c71da2322879",
+                "reference": "d2f26549660558122dbfeff4c128c71da2322879",
                 "shasum": ""
             },
             "require": {
@@ -1130,11 +1167,11 @@
             ],
             "description": "The Illuminate Http package.",
             "homepage": "https://laravel.com",
-            "time": "2019-04-22T18:38:59+00:00"
+            "time": "2019-04-26T12:43:07+00:00"
         },
         {
             "name": "illuminate/log",
-            "version": "v5.8.15",
+            "version": "v5.8.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/log.git",
@@ -1179,7 +1216,7 @@
         },
         {
             "name": "illuminate/pagination",
-            "version": "v5.8.15",
+            "version": "v5.8.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/pagination.git",
@@ -1224,7 +1261,7 @@
         },
         {
             "name": "illuminate/pipeline",
-            "version": "v5.8.15",
+            "version": "v5.8.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/pipeline.git",
@@ -1268,16 +1305,16 @@
         },
         {
             "name": "illuminate/queue",
-            "version": "v5.8.15",
+            "version": "v5.8.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/queue.git",
-                "reference": "307904b5be3ed118009b67b735772e9964e92bad"
+                "reference": "0940a01feffd88c11d664c0508899a79b95131c9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/queue/zipball/307904b5be3ed118009b67b735772e9964e92bad",
-                "reference": "307904b5be3ed118009b67b735772e9964e92bad",
+                "url": "https://api.github.com/repos/illuminate/queue/zipball/0940a01feffd88c11d664c0508899a79b95131c9",
+                "reference": "0940a01feffd88c11d664c0508899a79b95131c9",
                 "shasum": ""
             },
             "require": {
@@ -1323,11 +1360,11 @@
             ],
             "description": "The Illuminate Queue package.",
             "homepage": "https://laravel.com",
-            "time": "2019-04-22T18:45:14+00:00"
+            "time": "2019-05-14T02:09:30+00:00"
         },
         {
             "name": "illuminate/session",
-            "version": "v5.8.15",
+            "version": "v5.8.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/session.git",
@@ -1378,16 +1415,16 @@
         },
         {
             "name": "illuminate/support",
-            "version": "v5.8.15",
+            "version": "v5.8.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "7fbf8d76946ee53587955b670bd8a47e3d48e854"
+                "reference": "128c6aaa1599811a04fd10c2d68e1213e433da3f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/7fbf8d76946ee53587955b670bd8a47e3d48e854",
-                "reference": "7fbf8d76946ee53587955b670bd8a47e3d48e854",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/128c6aaa1599811a04fd10c2d68e1213e433da3f",
+                "reference": "128c6aaa1599811a04fd10c2d68e1213e433da3f",
                 "shasum": ""
             },
             "require": {
@@ -1435,11 +1472,11 @@
             ],
             "description": "The Illuminate Support package.",
             "homepage": "https://laravel.com",
-            "time": "2019-04-25T14:06:24+00:00"
+            "time": "2019-05-14T13:37:34+00:00"
         },
         {
             "name": "illuminate/translation",
-            "version": "v5.8.15",
+            "version": "v5.8.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/translation.git",
@@ -1485,16 +1522,16 @@
         },
         {
             "name": "illuminate/validation",
-            "version": "v5.8.15",
+            "version": "v5.8.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/validation.git",
-                "reference": "45931fb5461cfb27aed1c5a2600143df88edfc41"
+                "reference": "bc9a0c8ae19ee79f754522c697643d759f574d1c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/validation/zipball/45931fb5461cfb27aed1c5a2600143df88edfc41",
-                "reference": "45931fb5461cfb27aed1c5a2600143df88edfc41",
+                "url": "https://api.github.com/repos/illuminate/validation/zipball/bc9a0c8ae19ee79f754522c697643d759f574d1c",
+                "reference": "bc9a0c8ae19ee79f754522c697643d759f574d1c",
                 "shasum": ""
             },
             "require": {
@@ -1533,11 +1570,11 @@
             ],
             "description": "The Illuminate Validation package.",
             "homepage": "https://laravel.com",
-            "time": "2019-04-10T21:30:07+00:00"
+            "time": "2019-05-13T02:00:02+00:00"
         },
         {
             "name": "illuminate/view",
-            "version": "v5.8.15",
+            "version": "v5.8.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/view.git",
@@ -1586,16 +1623,16 @@
         },
         {
             "name": "laravel/lumen-framework",
-            "version": "v5.8.5",
+            "version": "v5.8.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/lumen-framework.git",
-                "reference": "0d5b7e655450a04dc9fe75dd956057c95bad4811"
+                "reference": "75f5d7f75219451194cf89302ce6842d75897ad1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/lumen-framework/zipball/0d5b7e655450a04dc9fe75dd956057c95bad4811",
-                "reference": "0d5b7e655450a04dc9fe75dd956057c95bad4811",
+                "url": "https://api.github.com/repos/laravel/lumen-framework/zipball/75f5d7f75219451194cf89302ce6842d75897ad1",
+                "reference": "75f5d7f75219451194cf89302ce6842d75897ad1",
                 "shasum": ""
             },
             "require": {
@@ -1667,7 +1704,7 @@
                 "laravel",
                 "lumen"
             ],
-            "time": "2019-04-19T14:18:28+00:00"
+            "time": "2019-05-14T19:56:47+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -1748,17 +1785,54 @@
             "time": "2018-11-05T09:00:11+00:00"
         },
         {
-            "name": "nesbot/carbon",
-            "version": "2.17.1",
+            "name": "neitanod/forceutf8",
+            "version": "v2.0.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "96acbc0c03782e8115156dd4dd8b736267155066"
+                "url": "https://github.com/neitanod/forceutf8.git",
+                "reference": "30980a8ca2787a7730d370eac310b8987eb68229"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/96acbc0c03782e8115156dd4dd8b736267155066",
-                "reference": "96acbc0c03782e8115156dd4dd8b736267155066",
+                "url": "https://api.github.com/repos/neitanod/forceutf8/zipball/30980a8ca2787a7730d370eac310b8987eb68229",
+                "reference": "30980a8ca2787a7730d370eac310b8987eb68229",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "ForceUTF8\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Sebastián Grignoli",
+                    "email": "grignoli@gmail.com"
+                }
+            ],
+            "description": "PHP Class Encoding featuring popular Encoding::toUTF8() function --formerly known as forceUTF8()-- that fixes mixed encoded strings.",
+            "homepage": "https://github.com/neitanod/forceutf8",
+            "time": "2018-10-10T23:03:52+00:00"
+        },
+        {
+            "name": "nesbot/carbon",
+            "version": "2.18.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/briannesbitt/Carbon.git",
+                "reference": "8322b7bd1805be31867c13bf3cdaab948a0dd406"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/8322b7bd1805be31867c13bf3cdaab948a0dd406",
+                "reference": "8322b7bd1805be31867c13bf3cdaab948a0dd406",
                 "shasum": ""
             },
             "require": {
@@ -1805,7 +1879,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2019-04-27T18:04:27+00:00"
+            "time": "2019-05-16T18:44:35+00:00"
         },
         {
             "name": "nikic/fast-route",
@@ -3080,6 +3154,97 @@
     ],
     "packages-dev": [
         {
+            "name": "adduc/coding-standards",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://gitlab.com/adduc-projects/php-coding-standards.git",
+                "reference": "9f6ba495a19949d5e389d157452652ac15b96b94"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://gitlab.com/api/v4/projects/adduc-projects%2Fphp-coding-standards/repository/archive.zip?sha=9f6ba495a19949d5e389d157452652ac15b96b94",
+                "reference": "9f6ba495a19949d5e389d157452652ac15b96b94",
+                "shasum": ""
+            },
+            "require": {
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.5.0",
+                "slevomat/coding-standard": "^4.6"
+            },
+            "type": "phpcodesniffer-standard",
+            "license": [
+                "MIT"
+            ],
+            "description": "Coding Standards for personal projects",
+            "time": "2018-11-19T07:24:54+00:00"
+        },
+        {
+            "name": "dealerdirect/phpcodesniffer-composer-installer",
+            "version": "v0.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Dealerdirect/phpcodesniffer-composer-installer.git",
+                "reference": "e749410375ff6fb7a040a68878c656c2e610b132"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Dealerdirect/phpcodesniffer-composer-installer/zipball/e749410375ff6fb7a040a68878c656c2e610b132",
+                "reference": "e749410375ff6fb7a040a68878c656c2e610b132",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^1.0",
+                "php": "^5.3|^7",
+                "squizlabs/php_codesniffer": "^2|^3"
+            },
+            "require-dev": {
+                "composer/composer": "*",
+                "phpcompatibility/php-compatibility": "^9.0",
+                "sensiolabs/security-checker": "^4.1.0"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin"
+            },
+            "autoload": {
+                "psr-4": {
+                    "Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Franck Nijhof",
+                    "email": "franck.nijhof@dealerdirect.com",
+                    "homepage": "http://www.frenck.nl",
+                    "role": "Developer / IT Manager"
+                }
+            ],
+            "description": "PHP_CodeSniffer Standards Composer Installer Plugin",
+            "homepage": "http://www.dealerdirect.com",
+            "keywords": [
+                "PHPCodeSniffer",
+                "PHP_CodeSniffer",
+                "code quality",
+                "codesniffer",
+                "composer",
+                "installer",
+                "phpcs",
+                "plugin",
+                "qa",
+                "quality",
+                "standard",
+                "standards",
+                "style guide",
+                "stylecheck",
+                "tests"
+            ],
+            "time": "2018-10-26T13:21:45+00:00"
+        },
+        {
             "name": "doctrine/instantiator",
             "version": "1.2.0",
             "source": {
@@ -3965,16 +4130,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "7.5.10",
+            "version": "7.5.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "d7d9cee051d03ed98df6023aad93f7902731a780"
+                "reference": "64cb33f5b520da490a7b13149d39b43cf3c890c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/d7d9cee051d03ed98df6023aad93f7902731a780",
-                "reference": "d7d9cee051d03ed98df6023aad93f7902731a780",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/64cb33f5b520da490a7b13149d39b43cf3c890c6",
+                "reference": "64cb33f5b520da490a7b13149d39b43cf3c890c6",
                 "shasum": ""
             },
             "require": {
@@ -4045,7 +4210,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2019-05-09T05:06:47+00:00"
+            "time": "2019-05-14T04:53:02+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -4614,6 +4779,96 @@
             "time": "2016-10-03T07:35:21+00:00"
         },
         {
+            "name": "slevomat/coding-standard",
+            "version": "4.8.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/slevomat/coding-standard.git",
+                "reference": "bff96313d8c7c2ba57a4edb13c1c141df8988c58"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/slevomat/coding-standard/zipball/bff96313d8c7c2ba57a4edb13c1c141df8988c58",
+                "reference": "bff96313d8c7c2ba57a4edb13c1c141df8988c58",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1",
+                "squizlabs/php_codesniffer": "^3.4.0"
+            },
+            "require-dev": {
+                "jakub-onderka/php-parallel-lint": "1.0.0",
+                "phing/phing": "2.16.1",
+                "phpstan/phpstan": "0.9.2",
+                "phpstan/phpstan-phpunit": "0.9.4",
+                "phpstan/phpstan-strict-rules": "0.9",
+                "phpunit/phpunit": "7.5.1"
+            },
+            "type": "phpcodesniffer-standard",
+            "autoload": {
+                "psr-4": {
+                    "SlevomatCodingStandard\\": "SlevomatCodingStandard"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Slevomat Coding Standard for PHP_CodeSniffer complements Consistence Coding Standard by providing sniffs with additional checks.",
+            "time": "2019-01-03T13:15:50+00:00"
+        },
+        {
+            "name": "squizlabs/php_codesniffer",
+            "version": "3.4.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
+                "reference": "b8a7362af1cc1aadb5bd36c3defc4dda2cf5f0a8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/b8a7362af1cc1aadb5bd36c3defc4dda2cf5f0a8",
+                "reference": "b8a7362af1cc1aadb5bd36c3defc4dda2cf5f0a8",
+                "shasum": ""
+            },
+            "require": {
+                "ext-simplexml": "*",
+                "ext-tokenizer": "*",
+                "ext-xmlwriter": "*",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.0 || ^5.0 || ^6.0 || ^7.0"
+            },
+            "bin": [
+                "bin/phpcs",
+                "bin/phpcbf"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.x-dev"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Greg Sherwood",
+                    "role": "lead"
+                }
+            ],
+            "description": "PHP_CodeSniffer tokenizes PHP, JavaScript and CSS files and detects violations of a defined set of coding standards.",
+            "homepage": "https://github.com/squizlabs/PHP_CodeSniffer",
+            "keywords": [
+                "phpcs",
+                "standards"
+            ],
+            "time": "2019-04-10T23:49:02+00:00"
+        },
+        {
             "name": "theseer/tokenizer",
             "version": "1.1.2",
             "source": {
@@ -4707,7 +4962,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "adduc/coding-standards": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

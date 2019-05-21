@@ -23,12 +23,12 @@ $router->group(['middleware' => 'auth:session'], function () use ($router) {
 });
 
 $router->group(['middleware' => 'auth:basic'], function () use ($router) {
-    $router->get('/shows/{show_id}/feed', 'ShowController@feed');
+    $router->get('/shows/{feed_id:\d+}/feed', 'ShowController@feed');
 });
 
 $router->group(['middleware' => 'auth:route'], function () use ($router) {
     $router->get(
-        '/shows/{show_id}/episodes/{rss_user}/{rss_pass}/{episode_id}.mp3',
+        '/shows/{feed_id:\d+}/episodes/{rss_user:\d+}/{rss_pass:\d+}/{item_id:\d+}.mp3',
         'ShowController@episode'
     );
 });

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App;
 
@@ -85,6 +85,5 @@ class User extends Model
         $now = new \DateTime();
 
         return ($this->expiration >= $now);
-
     }
 }

@@ -2,6 +2,6 @@
 
 @section('content')
 
-<a href="/login">Login</a>
+Hi!
 
 @endsection

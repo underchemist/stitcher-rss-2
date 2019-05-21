@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
@@ -33,7 +33,7 @@ class InitialSchema extends Migration
             $table->text('description')->nullable(true)->default(null);
             $table->string('pub_date')->nullable(true)->default(null);
             $table->string('itunes_duration')->nullable(true)->default(null);
-            $table->string('enclosure_url')->nullable(true)->default(null);
+            $table->text('enclosure_url')->nullable(true)->default(null);
 
             $table->timestamps();
         });
