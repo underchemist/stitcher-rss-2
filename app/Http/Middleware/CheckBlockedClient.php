@@ -45,7 +45,7 @@ class CheckBlockedClient
 
     protected function isUserAgentBlocked(Request $request): bool
     {
-        $user_agent = urldecode($request->header('User-Agent')) ?: '';
+        $user_agent = urldecode($request->header('User-Agent') ?? '') ?: '';
         $regex = '/(' . implode('|', $this->user_agents) . ')/i';
 
         return (bool)preg_match($regex, $user_agent);
