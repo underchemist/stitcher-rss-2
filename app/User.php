@@ -7,6 +7,8 @@ use App\Stitcher\Api;
 
 class User extends Model
 {
+    use \Spiritix\LadaCache\Database\LadaCacheTrait;
+
     /**
      * The attributes that are mass assignable.
      *

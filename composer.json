@@ -1,7 +1,6 @@
 {
-    "name": "laravel/lumen",
-    "description": "The Laravel Lumen Framework.",
-    "keywords": ["framework", "laravel", "lumen"],
+    "name": "adduc/stitcher-rss",
+    "description": "Unofficial RSS Feeds for Stitcher Premium",
     "license": "MIT",
     "type": "project",
     "require": {
@@ -9,8 +8,10 @@
         "adduc/cdata-simplexml": "^1.0",
         "adduc/stitcher-password": "^1.0",
         "guzzlehttp/guzzle": "^6.3",
+        "illuminate/redis": "^5.8",
         "laravel/lumen-framework": "5.8.*",
         "neitanod/forceutf8": "^2.0",
+        "spiritix/lada-cache": "^3.0",
         "vlucas/phpdotenv": "^3.3"
     },
     "require-dev": {

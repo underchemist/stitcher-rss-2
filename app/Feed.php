@@ -7,6 +7,8 @@ use Illuminate\Support\Carbon;
 
 class Feed extends Model
 {
+    use \Spiritix\LadaCache\Database\LadaCacheTrait;
+
     /**
      * The attributes that are mass assignable.
      *
