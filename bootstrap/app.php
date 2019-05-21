@@ -134,6 +134,4 @@ if (!function_exists('config_path')) {
     }
 }
 
-\DB::enableQueryLog();
-
 return $app;

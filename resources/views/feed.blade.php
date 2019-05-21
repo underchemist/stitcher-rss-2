@@ -3,9 +3,20 @@
 use Adduc\SimpleXMLElement;
 use App\User;
 use App\Item;
+use Illuminate\Support\Facades\Redis;
 
 $user = app(User::class);
+$cache_key = 'feed:' . $feed->id . $feed->updated_at->getTimestamp();
+$cache = Redis::get($cache_key);
 
+if ($cache) {
+    echo str_replace(
+        ['##user##', '##pass##'],
+        [$user->rss_user, $user->rss_password],
+        $cache
+    );
+    return;
+}
 
 $atom_ns = 'http://www.w3.org/2005/Atom';
 $itunes_ns = 'http://www.itunes.com/dtds/podcast-1.0.dtd';
@@ -35,7 +46,7 @@ $atom['type'] = "application/rss+xml";
 $channel->addChild('link', $url);
 
 $channel->title = $feed->title;
-$channel->addChild('lastBuildDate', (new DateTime())->format(DateTime::RSS));
+$channel->addChild('lastBuildDate', $feed->updated_at->format(DateTime::RSS));
 $channel->addChild('block', 'yes', $itunes_ns);
 $channel->addChild('block', 'yes', $googleplay_ns);
 
@@ -76,10 +87,8 @@ foreach ($items as $item) {
     $rss_item->guid['isPermaLink'] = "false";
 
     $url = sprintf(
-        "{$protocol}://{$domain}/shows/%d/episodes/%d/%d/%d.mp3",
+        "{$protocol}://{$domain}/shows/%d/episodes/##user##/##pass##/%d.mp3",
         $feed->id,
-        $user->rss_user,
-        $user->rss_password,
         $item->id
     );
 
@@ -89,4 +98,12 @@ foreach ($items as $item) {
     $enclosure['type'] = 'audio/mpeg';
 }
 
-echo $xml->asXML();
+$cache = $xml->asXML();
+
+Redis::set($cache_key, $cache);
+
+echo str_replace(
+    ['##user##', '##pass##'],
+    [$user->rss_user, $user->rss_password],
+    $cache
+);
