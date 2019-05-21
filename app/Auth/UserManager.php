@@ -23,11 +23,7 @@ class UserManager
             session_start();
         }
 
-        if (empty($_SESSION['user'])) {
-            return null;
-        }
-
-        return $_SESSION['user'];
+        return $_SESSION['user'] ?? null;
     }
 
     public function resolveFromBasicAuth(Request $request): ?User
@@ -52,17 +48,11 @@ class UserManager
             return null;
         }
 
-        throw new \Exception("Todo");
+        $user = User::where([
+            'rss_user' => $user,
+            'rss_password' => $pass,
+        ])->first();
 
-        $users = app('db')->select(
-            'select * from users where rss_user = ?',
-            [$user]
-        );
-
-        if (!$users || $users[0]->rss_password != $pass) {
-            return null;
-        }
-
-        return get_object_vars($users[0]);
+        return $user;
     }
 }
