@@ -43,14 +43,10 @@
         "ci": [
             "@composer install",
             "@lint",
-            "@test",
             "@style"
         ],
         "lint": [
             "parallel-lint -e 'php' --exclude 'vendor' ."
-        ],
-        "test": [
-            "phpunit"
         ],
         "style": [
             "phpcs --standard=Adduc ."

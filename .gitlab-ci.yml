@@ -1,0 +1,55 @@
+php:7.2:
+  image: adduc/ubuntu-php:7.2-build
+  cache:
+    paths:
+    - vendor
+    - node_modules
+  script:
+  - composer ci
+  # Needed because artifacts can't be excluded
+  - rsync -rtl ./ artifacts/ --exclude=.git --exclude=tests --exclude=node_modules --exclude=cache --exclude=.hg
+  - composer install -d artifacts --no-dev --classmap-authoritative
+  artifacts:
+    paths:
+    - artifacts
+
+php:7.3:
+  image: adduc/ubuntu-php:7.3-build
+  cache:
+    paths:
+    - vendor
+    - node_modules
+  script:
+  - composer ci
+  # Needed because artifacts can't be excluded
+  - rsync -rtl ./ artifacts/ --exclude=.git --exclude=tests --exclude=node_modules --exclude=cache --exclude=.hg
+  - composer install -d artifacts --no-dev --classmap-authoritative
+  artifacts:
+    paths:
+    - artifacts
+
+deploy:prod:
+  image: adduc/ubuntu-php:7.2-build
+  stage: deploy
+  script:
+  - eval $(ssh-agent -s)
+  - mkdir -p ~/.ssh && chmod 700 ~/.ssh
+  - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
+  - ssh-add ~/.ssh/id_rsa
+  - touch ~/.ssh/known_hosts && chmod 600 ~/.ssh/known_hosts
+  - ssh-keyscan $DEST_HOST >> ~/.ssh/known_hosts 2>&1
+  - ssh-keyscan $(getent hosts $DEST_HOST | awk '{ print $1 }') >> ~/.ssh/known_hosts 2>&1
+  - rsync -rvzPtale ssh artifacts/ $DEST_USER@$DEST_HOST:$DEST_DIR/ --delete
+      --exclude=.env
+      --exclude=storage
+      --exclude=public/.well-known
+  - ssh $DEST_USER@$DEST_HOST "cd $DEST_DIR; ./artisan migrate --force"
+  when: manual
+  only:
+  - master
+
+  - php:7.3
+  variables:
+    GIT_STRATEGY: none
+  environment:
+    name: production

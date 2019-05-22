@@ -1,10 +1,12 @@
-@extends('layout')
-<?php
+<?php declare(strict_types=1);
+
 $user = app(\App\User::class);
 $protocol = !empty($_SERVER['HTTPS']) ? 'https' : 'http';
 $domain = $_SERVER['HTTP_HOST'];
 $base_uri = "{$protocol}://{$user->rss_user}:{$user->rss_password}@{$domain}";
+
 ?>
+@extends('layout')
 @section('content')
 
 <form method="get" action="/shows">
