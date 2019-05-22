@@ -3,7 +3,6 @@ php:7.2:
   cache:
     paths:
     - vendor
-    - node_modules
   script:
   - composer ci
   # Needed because artifacts can't be excluded
@@ -18,7 +17,6 @@ php:7.3:
   cache:
     paths:
     - vendor
-    - node_modules
   script:
   - composer ci
   # Needed because artifacts can't be excluded
@@ -47,7 +45,7 @@ deploy:prod:
   when: manual
   only:
   - master
-
+  dependencies:
   - php:7.3
   variables:
     GIT_STRATEGY: none
