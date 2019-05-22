@@ -10,6 +10,7 @@ use GuzzleHttp\Exception\RequestException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Laravel\Lumen\Routing\Controller;
+use App\Item;
 
 class ShowController extends Controller
 {
@@ -115,8 +116,17 @@ class ShowController extends Controller
         );
     }
 
-    public function episode()
+    public function episode(int $feed_id, int $item_id)
     {
-        throw new \Exception("To Implement");
+        $item = Item::where([
+            'id' => $item_id,
+            'feed_id' => $feed_id,
+        ])->first();
+
+        if (!$item) {
+            abort(404);
+        }
+
+        return redirect($item->enclosure_url);
     }
 }
