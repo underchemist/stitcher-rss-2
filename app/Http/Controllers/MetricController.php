@@ -2,12 +2,80 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\Controller;
+use App\User;
+use App\Item;
+use App\Feed;
 
 class MetricController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        throw new \Exception("To Implement");
+        $is_user = $request->getUser() === env('METRIC_USER', '');
+        $is_pass = $request->getPassword() === env('METRIC_PASS', '');
+
+        if (!$is_user || !$is_pass) {
+            $headers = ['WWW-Authenticate' => 'Basic realm="Metrics"'];
+            return response("Unauthorized\n", 401, $headers);
+        }
+
+        $user_total = User::count();
+        $user_active = User::whereRaw('expiration > NOW()')->count();
+
+        $feed_total = Feed::count();
+        $feed_premium = Feed::where('is_premium', 1)->count();
+
+        $item_total = Item::count();
+        $item_premium = Item::join('feeds', 'feeds.id', '=', 'items.feed_id')
+            ->where('is_premium', 1)
+            ->count();
+
+
+        $host_labels = [
+            'site' => 'stitcher_rss'
+        ];
+
+        $metrics = [
+            [
+                'name' => 'users',
+                'labels' => ['type' => 'all'],
+                'value' => $user_total,
+            ],
+            [
+                'name' => 'users',
+                'labels' => ['type' => 'active'],
+                'value' => $user_active,
+            ],
+            [
+                'name' => 'feeds',
+                'labels' => ['type' => 'all'],
+                'value' => $feed_total,
+            ],
+            [
+                'name' => 'feeds',
+                'labels' => ['type' => 'premium'],
+                'value' => $feed_premium,
+            ],
+            [
+                'name' => 'items',
+                'labels' => ['type' => 'all'],
+                'value' => $item_total,
+            ],
+            [
+                'name' => 'items',
+                'labels' => ['type' => 'premium'],
+                'value' => $item_premium,
+            ],
+        ];
+
+        $view = view('metrics', [
+            'host_labels' => $host_labels,
+            'metrics' => $metrics
+        ]);
+
+        return response($view, 200, [
+            'Content-Type' => 'text/plain; version=0.0.4'
+        ]);
     }
 }
