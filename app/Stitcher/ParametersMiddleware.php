@@ -39,7 +39,7 @@ class ParametersMiddleware
         ];
 
         if ($this->user !== null) {
-            $query['uid'] = $this->user->stitcher_id;
+            $query += ['uid' => $this->user->stitcher_id];
         }
 
         $uri = $request->getUri()->withQuery(build_query($query));

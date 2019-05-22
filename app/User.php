@@ -53,39 +53,30 @@ class User extends Model
 
     protected function checkPremiumStatus(): bool
     {
-        throw new \Exception('Todo');
-
         $client = app(Api::class);
 
-        $result = $client->get('GetSubscriptionStatus.php', [
-            'uid' => $this->stitcher_id
-        ]);
+        $response = $client->get('GetSubscriptionStatus.php');
 
-        if (!$result->subscriptionExpiration) {
+        libxml_use_internal_errors(true);
+        $xml = simplexml_load_string($response->getBody()->__toString());
+        libxml_clear_errors();
+
+        $sub_state = (int)$xml['subscriptionState'];
+        $sub_expiration = (string)$xml['subscriptionExpiration'];
+
+        if ($sub_state != 3 || !$sub_expiration) {
             return false;
         }
 
-        $expiration = new \DateTime(
-            $result->subscriptionExpiration,
-            new \DateTimeZone('America/Los_Angeles')
-        );
+        $expiration = new \DateTime($sub_expiration);
 
         if ($expiration == $this->expiration) {
-            return false;
+            return ($this->expiration >= new \DateTime());
         }
 
         $this->expiration = $expiration;
+        $this->save();
 
-        $user = get_object_vars($this);
-        unset($user['client']);
-
-        app('db')
-            ->table('users')
-            ->where('id', $this->id)
-            ->update($user);
-
-        $now = new \DateTime();
-
-        return ($this->expiration >= $now);
+        return ($this->expiration >= new \DateTime());
     }
 }
