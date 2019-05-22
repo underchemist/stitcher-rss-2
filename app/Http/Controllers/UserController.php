@@ -69,7 +69,7 @@ class UserController extends BaseController
 
         \Illuminate\Support\Facades\DB::connection()->enableQueryLog();
 
-        $user = User::where('stitcher_id', $xml['id'])->first();
+        $user = User::where('stitcher_id', (int)$xml['id'])->first();
 
         if ($user === null) {
             $user = User::create([
