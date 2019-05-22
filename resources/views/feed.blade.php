@@ -83,6 +83,8 @@ foreach ($items as $item) {
     $rss_item->addCData('description', $item->description ?: '');
     $rss_item->pubDate = $item->pub_date->format(DateTime::RSS);
 
+    $rss_item->addChild('duration', $item->itunes_duration, $itunes_ns);
+
     $rss_item->guid = "{$protocol}://{$domain}/shows/{$feed->id}/episodes/{$item->id}";
     $rss_item->guid['isPermaLink'] = "false";
 
