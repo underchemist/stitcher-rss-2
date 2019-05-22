@@ -26,7 +26,7 @@ class FeedCache extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Refresh cache for feeds';
 
     /**
      * @var RefreshShow $action
@@ -76,7 +76,7 @@ class FeedCache extends Command
             return $this->action->refresh($feed, $user->stitcher_id);
         }
 
-        Feed::chunk(100, function ($feeds) use ($force, $quick) {
+        Feed::chunk(100, function ($feeds) use ($force, $quick, $user) {
             foreach ($feeds as $feed) {
                 if (!$force && !$feed->dueForRefresh()) {
                     continue;
@@ -91,7 +91,7 @@ class FeedCache extends Command
                 if (!$quick) {
                     // Wait five seconds between refreshes
                     $time = microtime(true) - $time;
-                    usleep((5 - $time) * 1000000);
+                    usleep((int)((5 - $time) * 1000000));
                 }
             }
         });
