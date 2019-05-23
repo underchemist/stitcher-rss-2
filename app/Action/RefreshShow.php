@@ -20,20 +20,42 @@ class RefreshShow
 
     public function refresh(Feed $feed, ?int $user_id = null)
     {
-        $query = ['fid' => $feed->id];
+        $query = [
+            'fid' => $feed->id,
+            'id_Season' => -1,
+            's' => 0,
+            'c' => 100,
+        ];
 
         if ($user_id !== null) {
             $query['uid'] = $user_id;
         }
 
+        $response = $this->fetch($query);
+
+        $this->processFeed($feed, $response->feed);
+        $this->processItems($feed, $response->episodes->episode);
+
+        $count = (int)$response->feed['episodeCount'];
+
+        if ($count > $query['c']) {
+            while ($query['c'] + $query['s'] < $count) {
+                $query['s'] += $query['c'];
+                $response = $this->fetch($query);
+                $this->processItems($feed, $response->episodes->episode);
+            }
+        }
+    }
+
+    protected function fetch(array $query): \SimpleXMLElement
+    {
         $response = $this->client->get('GetFeedDetailsWithEpisodes.php', [
-            'query' => $query
+            'query' => $query,
         ]);
 
         $response = new \SimpleXMLElement($response->getBody()->__toString());
 
-        $this->processFeed($feed, $response->feed);
-        $this->processItems($feed, $response->episodes->episode);
+        return $response;
     }
 
     protected function processFeed(Feed $feed, \SimpleXMLElement $response)
