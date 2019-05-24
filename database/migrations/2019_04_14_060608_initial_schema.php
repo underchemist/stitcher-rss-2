@@ -33,6 +33,8 @@ class InitialSchema extends Migration
             $table->text('description')->nullable(true)->default(null);
             $table->string('pub_date')->nullable(true)->default(null);
             $table->string('itunes_duration')->nullable(true)->default(null);
+            $table->integer('itunes_season')->nullable(true)->default(null);
+            $table->integer('itunes_episode')->nullable(true)->default(null);
             $table->text('enclosure_url')->nullable(true)->default(null);
 
             $table->timestamps();

@@ -85,6 +85,10 @@ foreach ($items as $item) {
 
     $rss_item->addChild('duration', $item->itunes_duration, $itunes_ns);
 
+    if ($item->itunes_season) {
+        $rss_item->addChild('season', (string)$item->itunes_season, $itunes_ns);
+    }
+
     $rss_item->guid = "{$protocol}://{$domain}/shows/{$feed->id}/episodes/{$item->id}";
     $rss_item->guid['isPermaLink'] = "false";
 

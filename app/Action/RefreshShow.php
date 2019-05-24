@@ -34,7 +34,9 @@ class RefreshShow
         $response = $this->fetch($query);
 
         $this->processFeed($feed, $response->feed);
-        $this->processItems($feed, $response->episodes->episode);
+        $episodes = $response->episodes->episode;
+        $seasons = $this->extractSeasons($response->feed->season);
+        $this->processItems($feed, $episodes, $seasons);
 
         $count = (int)$response->feed['episodeCount'];
 
@@ -42,7 +44,9 @@ class RefreshShow
             while ($query['c'] + $query['s'] < $count) {
                 $query['s'] += $query['c'];
                 $response = $this->fetch($query);
-                $this->processItems($feed, $response->episodes->episode);
+                $episodes = $response->episodes->episode;
+                $seasons = $this->extractSeasons($response->feed->season);
+                $this->processItems($feed, $episodes, $seasons);
             }
         }
     }
@@ -72,7 +76,20 @@ class RefreshShow
         $feed->id = (int)$response['id'];
     }
 
-    protected function processItems(Feed $feed, \SimpleXMLElement $episodes)
+    protected function extractSeasons(\SimpleXMLElement $response): array
+    {
+        $seasons = [];
+
+        foreach ($response as $season) {
+            $id = (int)$season['id'] ?: '';
+            $title = (int)$season['title'] ?: null;
+            $seasons[$id] = $title;
+        }
+
+        return $seasons;
+    }
+
+    protected function processItems(Feed $feed, \SimpleXMLElement $episodes, array $seasons)
     {
         $items = $feed->items->keyBy('id');
 
@@ -85,8 +102,12 @@ class RefreshShow
             $item->title = (string)$xml_item->title;
             $item->description = (string)$xml_item->description;
             $item->pub_date = Carbon::make((string)$xml_item['published']);
-            $item->itunes_duration = (int)$xml_item['duration'];
             $item->enclosure_url = (string)$xml_item['url'];
+            $item->itunes_duration = (int)$xml_item['duration'];
+
+            $season_id = (int)$xml_item['id_Season'];
+            $item->itunes_season = $seasons[$season_id] ?? null;
+            $item->itunes_episode = (int)$xml_item['episodeNumber'] ?: null;
 
             // Attempt to force conversion of input into UTF8
             $item->description = str_replace(chr(194), "", $item->description ?? '');
