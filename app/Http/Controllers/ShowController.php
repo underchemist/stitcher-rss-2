@@ -90,7 +90,7 @@ class ShowController extends Controller
             abort(404);
         }
 
-        $feed = Feed::find($feed_id);
+        $feed = Feed::where('id', $feed_id)->first();
 
         if (!$feed) {
             $feed = Feed::make(['id' => $feed_id]);
