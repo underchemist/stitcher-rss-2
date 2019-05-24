@@ -82,16 +82,10 @@ class FeedCache extends Command
                     continue;
                 }
 
-                if (!$quick) {
-                    $time = microtime(true);
-                }
-
                 $this->action->refresh($feed, $user->stitcher_id);
 
                 if (!$quick) {
-                    // Wait five seconds between refreshes
-                    $time = microtime(true) - $time;
-                    usleep((int)((5 - $time) * 1000000));
+                    sleep(2);
                 }
             }
         });
