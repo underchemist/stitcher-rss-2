@@ -21,10 +21,10 @@ class RefreshShow
     public function refresh(Feed $feed, ?int $user_id = null)
     {
         $query = [
-            'fid' => $feed->id,
-            'id_Season' => -1,
-            's' => 0,
-            'c' => 100,
+            'fid' => $feed->id, // Feed ID
+            'id_Season' => -1,  // Season ID
+            's' => 0,           // Offset to start at
+            'c' => 100,         // Number of episodes to return
         ];
 
         if ($user_id !== null) {
