@@ -73,7 +73,7 @@ class UserController extends BaseController
 
         if ($user === null) {
             $user = User::create([
-                'stitcher_id' => $xml['id'],
+                'stitcher_id' => (int)$xml['id'],
                 'rss_user' => random_int(10000, 99999),
                 'rss_password' => random_int(10000, 99999),
                 'expiration' => new \DateTime((string)$xml['subscriptionExpiration']),
