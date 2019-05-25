@@ -19,7 +19,6 @@ $router->get('/logout', 'UserController@logout');
 
 $router->group(['middleware' => 'auth:session'], function () use ($router) {
     $router->get('/shows', 'ShowController@shows');
-    $router->addRoute(['GET', 'POST'], '/search', 'ShowController@search');
 });
 
 $router->group(['middleware' => 'auth:basic'], function () use ($router) {
