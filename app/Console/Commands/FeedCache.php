@@ -70,13 +70,13 @@ class FeedCache extends Command
                 $feed = Feed::firstOrNew(['id' => $id]);
                 $this->refresh($feed, $force, $quick, $user);
             }
+        } else {
+            Feed::chunk(100, function ($feeds) use ($force, $quick, $user) {
+                foreach ($feeds as $feed) {
+                    $this->refresh($feed, $force, $quick, $user);
+                }
+            });
         }
-
-        Feed::chunk(100, function ($feeds) use ($force, $quick, $user) {
-            foreach ($feeds as $feed) {
-                $this->refresh($feed, $force, $quick, $user);
-            }
-        });
     }
 
     protected function refresh(Feed $feed, $force, $quick, $user)
