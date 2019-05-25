@@ -33,7 +33,10 @@ class RefreshShow
 
         $response = $this->fetch($query);
 
-        if ($response->feed['premium']->__toString()) {
+        $is_premium = $response->feed['premium']->__toString();
+        $is_requested = (int)$response->feed['id'] == $feed->id;
+
+        if ($is_premium && $is_requested) {
             $episodes = $response->episodes->episode;
             $seasons = $this->extractSeasons($response->feed->season);
             $this->processItems($feed, $episodes, $seasons);
