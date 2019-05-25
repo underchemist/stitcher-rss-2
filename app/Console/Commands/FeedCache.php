@@ -16,7 +16,7 @@ class FeedCache extends Command
      */
     protected $signature = '
         feed:cache
-        { id? : Stitcher\'s Feed ID }
+        { id?* : Stitcher Feed ID }
         { --force : Ignore refresh restrictions }
         { --quick : Ignore throttling restrictions }
     ';
@@ -52,7 +52,7 @@ class FeedCache extends Command
      */
     public function handle()
     {
-        $id = $this->argument('id');
+        $ids = $this->argument('id');
         $force = $this->option('force');
         $quick = $this->option('quick');
 
@@ -65,29 +65,30 @@ class FeedCache extends Command
             exit(1);
         }
 
-        if ($id) {
-            $feed = Feed::firstOrNew(['id' => $id]);
-
-            if (!$force && !$feed->dueForRefresh()) {
-                $this->error("Feed is not due for update.");
-                exit(1);
+        if ($ids) {
+            foreach ($ids as $id) {
+                $feed = Feed::firstOrNew(['id' => $id]);
+                $this->refresh($feed, $force, $quick, $user);
             }
-
-            return $this->action->refresh($feed, $user->stitcher_id);
         }
 
         Feed::chunk(100, function ($feeds) use ($force, $quick, $user) {
             foreach ($feeds as $feed) {
-                if (!$force && !$feed->dueForRefresh()) {
-                    continue;
-                }
-
-                $this->action->refresh($feed, $user->stitcher_id);
-
-                if (!$quick) {
-                    sleep(2);
-                }
+                $this->refresh($feed, $force, $quick, $user);
             }
         });
+    }
+
+    protected function refresh(Feed $feed, $force, $quick, $user)
+    {
+        if (!$force && !$feed->dueForRefresh()) {
+            return;
+        }
+
+        $this->action->refresh($feed, $user->stitcher_id);
+
+        if (!$quick) {
+            sleep(2);
+        }
     }
 }
