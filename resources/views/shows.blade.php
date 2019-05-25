@@ -24,7 +24,7 @@ $base_uri = "://{$user->rss_user}:{$user->rss_password}@{$domain}";
     </div>
 </div>
 
-@if ($feeds)
+@if ($feeds && count($feeds))
 
 <div class="columns is-desktop">
     <div class="column is-half is-offset-one-quarter">
