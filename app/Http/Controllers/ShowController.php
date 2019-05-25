@@ -18,7 +18,7 @@ class ShowController extends Controller
     {
         $feeds = null;
         $notice = null;
-        $term = $request->input('q');
+        $term = $request->input('term');
 
         if (is_string($term) && $term) {
             $feeds = $this->search($term, $client);

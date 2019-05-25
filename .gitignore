@@ -1,5 +1,12 @@
-/vendor
-/.idea
-Homestead.json
-Homestead.yaml
+# Environment configuration
 .env
+
+# Third-party dependencies
+/vendor
+/node_modules
+
+# Generated assets
+public/bundle.js
+
+# CI artifacts
+/artifacts

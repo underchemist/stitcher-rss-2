@@ -1,0 +1,37 @@
+$section-padding: 1.5rem;
+
+@import "bulma";
+
+.feed-url {
+    white-space: normal;
+    border: 0;
+    width: 100%;
+    display: block;
+}
+
+.navbar-burger {
+    height: 64px;
+    width: 64px;
+}
+
+@media screen and (max-width: 1087px) {
+    .navbar-brand {
+        &.logged-out-brand .navbar-item {
+            width: calc(100%);
+        }
+        & .navbar-item {
+            width: calc(100% - 64px);
+            justify-content: center;
+        }
+    }
+}
+
+input, select, textarea {
+    background: #FFF;
+    color: #000;
+}
+
+.is-82x82 {
+    height: 82px;
+    width: 82px;
+}

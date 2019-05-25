@@ -4,7 +4,7 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": ">=7.1.3",
+        "php": ">=7.2",
         "adduc/cdata-simplexml": "^1.0",
         "adduc/stitcher-password": "^1.0",
         "guzzlehttp/guzzle": "^6.3",
@@ -43,7 +43,8 @@
         "ci": [
             "@composer install",
             "@lint",
-            "@style"
+            "@style",
+            "@webpack"
         ],
         "lint": [
             "parallel-lint -e 'php' --exclude 'vendor' ."
@@ -53,12 +54,19 @@
         ],
         "style:fix": [
             "phpcbf --standard=Adduc ."
+        ],
+        "webpack": [
+            "yarn install",
+            "./node_modules/.bin/webpack -p"
         ]
     },
     "config": {
         "preferred-install": "dist",
         "sort-packages": true,
-        "optimize-autoloader": true
+        "optimize-autoloader": true,
+        "platform": {
+            "php": "7.2.18"
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
