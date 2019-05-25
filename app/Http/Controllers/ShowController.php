@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Laravel\Lumen\Routing\Controller;
 use App\Item;
+use Illuminate\Support\Facades\Redis;
 
 class ShowController extends Controller
 {
@@ -41,6 +42,13 @@ class ShowController extends Controller
 
     protected function search(string $term, Api $client): ?array
     {
+        $cache_key = "search-{$term}";
+        $results = Redis::get($cache_key);
+
+        if ($results) {
+            return unserialize($results);
+        }
+
         try {
             $response = $client->get('Search.php', [
                 'query' => [
@@ -80,6 +88,8 @@ class ShowController extends Controller
                 'image_url' => (string)$feed['imageURL'],
             ]);
         }
+
+        Redis::set($cache_key, serialize($feeds), 'EX', 3600);
 
         return $feeds;
     }
