@@ -30,7 +30,7 @@ class ShowController extends Controller
         }
 
         if ($feeds === null) {
-            $feeds = Feed::all();
+            $feeds = Feed::where('is_premium', 1)->get();
         }
 
         return view('shows', [
