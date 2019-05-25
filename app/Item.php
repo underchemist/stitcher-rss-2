@@ -6,8 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Item extends Model
 {
-    use \Spiritix\LadaCache\Database\LadaCacheTrait;
-
     /**
      * The attributes that are mass assignable.
      *

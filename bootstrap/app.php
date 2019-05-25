@@ -83,7 +83,6 @@ $app->routeMiddleware([
 
 $app->register(App\Providers\UserProvider::class);
 $app->register(Illuminate\Redis\RedisServiceProvider::class);
-$app->register(Spiritix\LadaCache\LadaCacheServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
@@ -117,7 +116,5 @@ config([
 ]);
 
 config('database.redis.client', 'phpredis');
-
-require_once __DIR__ . '/functions.php';
 
 return $app;
