@@ -33,22 +33,25 @@ class RefreshShow
 
         $response = $this->fetch($query);
 
-        $this->processFeed($feed, $response->feed);
-        $episodes = $response->episodes->episode;
-        $seasons = $this->extractSeasons($response->feed->season);
-        $this->processItems($feed, $episodes, $seasons);
+        if ($response->feed['premium']->__toString()) {
+            $episodes = $response->episodes->episode;
+            $seasons = $this->extractSeasons($response->feed->season);
+            $this->processItems($feed, $episodes, $seasons);
 
-        $count = (int)$response->feed['episodeCount'];
+            $count = (int)$response->feed['episodeCount'];
 
-        if ($count > $query['c']) {
-            while ($query['c'] + $query['s'] < $count) {
-                $query['s'] += $query['c'];
-                $response = $this->fetch($query);
-                $episodes = $response->episodes->episode;
-                $seasons = $this->extractSeasons($response->feed->season);
-                $this->processItems($feed, $episodes, $seasons);
+            if ($count > $query['c']) {
+                while ($query['c'] + $query['s'] < $count) {
+                    $query['s'] += $query['c'];
+                    $response = $this->fetch($query);
+                    $episodes = $response->episodes->episode;
+                    $seasons = $this->extractSeasons($response->feed->season);
+                    $this->processItems($feed, $episodes, $seasons);
+                }
             }
         }
+
+        $this->processFeed($feed, $response->feed);
     }
 
     protected function fetch(array $query): \SimpleXMLElement
