@@ -42,4 +42,19 @@ class Feed extends Model
     {
         return $this->hasMany(Item::class);
     }
+
+    public static function isPremium(
+        \SimpleXMLElement $element,
+        ?Feed $feed = null
+    ): bool {
+        if ($feed !== null && (int)$element['id'] != $feed->id) {
+            $is_premium = false;
+        } elseif ($element['authRequired'] && $element['authRequired']->__toString()) {
+            $is_premium = false;
+        } else {
+            $is_premium = (bool)$element['premium']->__toString();
+        }
+
+        return $is_premium;
+    }
 }

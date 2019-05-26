@@ -33,10 +33,7 @@ class RefreshShow
 
         $response = $this->fetch($query);
 
-        $is_premium = $response->feed['premium']->__toString();
-        $is_requested = (int)$response->feed['id'] == $feed->id;
-
-        if ($is_premium && $is_requested) {
+        if (Feed::isPremium($response->feed)) {
             $episodes = $response->episodes->episode;
             $seasons = $this->extractSeasons($response->feed->season);
             $this->processItems($feed, $episodes, $seasons);
@@ -70,16 +67,10 @@ class RefreshShow
 
     protected function processFeed(Feed $feed, \SimpleXMLElement $response)
     {
-        if ((int)$response['id'] != $feed->id) {
-            $is_premium = 0;
-        } else {
-            $is_premium = (int)$response['premium']->__toString();
-        }
-
         $feed->title = (string)$response->name;
         $feed->description = (string)$response->description;
         $feed->image_url = (string)$response['imageURL'];
-        $feed->is_premium = $is_premium;
+        $feed->is_premium = Feed::isPremium($response);
         $feed->last_refresh = Carbon::now();
 
         $feed->save();

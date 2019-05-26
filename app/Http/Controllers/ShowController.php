@@ -77,7 +77,7 @@ class ShowController extends Controller
         $feeds = [];
 
         foreach ($xml->feed as $feed) {
-            if (!(bool)$feed['premium']->__toString()) {
+            if (!Feed::isPremium($feed)) {
                 continue;
             }
 
