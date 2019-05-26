@@ -35,7 +35,7 @@ class Feed extends Model
             return true;
         }
 
-        return $this->last_refresh < Carbon::now()->modify('-5 minutes');
+        return $this->last_refresh < Carbon::now()->modify('-60 minutes');
     }
 
     public function items()
