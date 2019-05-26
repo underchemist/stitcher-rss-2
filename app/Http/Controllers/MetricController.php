@@ -7,6 +7,7 @@ use Laravel\Lumen\Routing\Controller;
 use App\User;
 use App\Item;
 use App\Feed;
+use Illuminate\Support\Carbon;
 
 class MetricController extends Controller
 {
@@ -25,6 +26,10 @@ class MetricController extends Controller
 
         $feed_total = Feed::count();
         $feed_premium = Feed::where('is_premium', 1)->count();
+        $feed_expired = Feed::where('last_refresh', '<', Carbon::make('-1 hour'))->count();
+        $feed_oldest = Feed::select('last_refresh')
+            ->orderBy('last_refresh', 'asc')
+            ->first();
 
         $item_total = Item::count();
         $item_premium = Item::join('feeds', 'feeds.id', '=', 'items.feed_id')
@@ -56,6 +61,16 @@ class MetricController extends Controller
                 'name' => 'feeds',
                 'labels' => ['type' => 'premium'],
                 'value' => $feed_premium,
+            ],
+            [
+                'name' => 'feeds',
+                'labels' => ['type' => 'expired'],
+                'value' => $feed_expired,
+            ],
+            [
+                'name' => 'feeds',
+                'labels' => ['type' => 'expired_age'],
+                'value' => $feed_oldest->last_refresh->diffInSeconds(Carbon::now()),
             ],
             [
                 'name' => 'items',
