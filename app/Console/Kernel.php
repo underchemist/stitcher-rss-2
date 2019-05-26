@@ -24,6 +24,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        //
+        $schedule
+            ->command('feed:cache')
+            ->everyMinute()
+            ->withoutOverlapping();
     }
 }
