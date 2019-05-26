@@ -88,7 +88,7 @@ class FeedCache extends Command
         $this->action->refresh($feed, $user->stitcher_id);
 
         if (!$quick) {
-            sleep(2);
+            sleep(1);
         }
     }
 }
