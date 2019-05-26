@@ -94,7 +94,7 @@ class ShowController extends Controller
         return $feeds;
     }
 
-    public function feed(int $feed_id, RefreshShow $refresh)
+    public function feed(Request $request, int $feed_id, RefreshShow $refresh)
     {
         if (!$feed_id) {
             abort(404);
@@ -119,11 +119,32 @@ class ShowController extends Controller
 
         $feed->load('items');
 
+        $date = $feed->last_refresh->format('D, d M Y H:i:s ') . 'GMT';
+
+        if ($this->isCachedByClient($request, $date)) {
+            return response('', 304);
+        }
+
         return response(
             view('feed', ['feed' => $feed]),
             200,
-            ['Content-Type' => 'text/xml']
+            [
+                'Content-Type' => 'text/xml',
+                'Last-Modified' => $date,
+                'ETag' => $date,
+            ]
         );
+    }
+
+    protected function isCachedByClient(Request $request, string $date): bool
+    {
+        $if_modified_since = $request->header('IF_MODIFIED_SINCE', null);
+        $if_none_match = $request->header('IF_NONE_MATCH', null);
+
+        $none_matches = $if_none_match == $date;
+        $modified_matches = !$if_none_match && $if_modified_since == $date;
+
+        return $none_matches || $modified_matches;
     }
 
     public function episode(int $feed_id, int $item_id)
