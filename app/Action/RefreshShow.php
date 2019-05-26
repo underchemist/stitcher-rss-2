@@ -70,10 +70,16 @@ class RefreshShow
 
     protected function processFeed(Feed $feed, \SimpleXMLElement $response)
     {
+        if ((int)$response['id'] != $feed->id) {
+            $is_premium = 0;
+        } else {
+            $is_premium = (int)$response['premium']->__toString();
+        }
+
         $feed->title = (string)$response->name;
         $feed->description = (string)$response->description;
         $feed->image_url = (string)$response['imageURL'];
-        $feed->is_premium = (bool)$response['premium']->__toString();
+        $feed->is_premium = $is_premium;
         $feed->last_refresh = Carbon::now();
 
         $feed->save();
