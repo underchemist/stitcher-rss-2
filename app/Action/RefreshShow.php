@@ -33,7 +33,7 @@ class RefreshShow
 
         $response = $this->fetch($query);
 
-        if (Feed::isPremium($response->feed)) {
+        if (Feed::isPremium($response->feed, $feed)) {
             $episodes = $response->episodes->episode;
             $seasons = $this->extractSeasons($response->feed->season);
             $this->processItems($feed, $episodes, $seasons);
@@ -70,7 +70,7 @@ class RefreshShow
         $feed->title = (string)$response->name;
         $feed->description = (string)$response->description;
         $feed->image_url = (string)$response['imageURL'];
-        $feed->is_premium = Feed::isPremium($response);
+        $feed->is_premium = Feed::isPremium($response, $feed);
         $feed->last_refresh = Carbon::now();
 
         $feed->save();
