@@ -24,7 +24,11 @@ class RefreshShow
             'fid' => $feed->id, // Feed ID
             'id_Season' => -1,  // Season ID
             's' => 0,           // Offset to start at
-            'c' => 100,         // Number of episodes to return
+
+            // Number of episodes to return
+            // Start with a small amount of episodes to allow quick
+            // responses when dealing with non-premium feeds
+            'c' => 1,
         ];
 
         if ($user_id !== null) {
@@ -34,6 +38,12 @@ class RefreshShow
         $response = $this->fetch($query);
 
         if (Feed::isPremium($response->feed, $feed)) {
+            // Once we've confirmed feed is premium, increase episode
+            // count to 250 to reduce number of calls needed to fetch
+            // all episodes
+            $query['c'] = 250;
+            $response = $this->fetch($query);
+
             $episodes = $response->episodes->episode;
             $seasons = $this->extractSeasons($response->feed->season);
             $this->processItems($feed, $episodes, $seasons);
