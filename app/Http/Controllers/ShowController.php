@@ -113,6 +113,10 @@ class ShowController extends Controller
             }
         }
 
+        if (!$feed->is_premium && $feed->premium_id) {
+            $feed = Feed::where('id', $feed->premium_id)->first();
+        }
+
         if (!$feed->is_premium) {
             return response("Show is not premium. Please fetch from the original provider.", 404);
         }

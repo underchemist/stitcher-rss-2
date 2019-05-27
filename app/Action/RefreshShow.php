@@ -77,6 +77,14 @@ class RefreshShow
 
     protected function processFeed(Feed $feed, \SimpleXMLElement $response)
     {
+
+        if ((int)$response['id'] != $feed->id) {
+            $premium_id = $response['id'];
+        } else {
+            $premium_id = null;
+        }
+
+        $feed->premium_id = $premium_id;
         $feed->title = (string)$response->name;
         $feed->description = (string)$response->description;
         $feed->image_url = (string)$response['imageURL'];

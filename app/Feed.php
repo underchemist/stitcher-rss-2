@@ -18,6 +18,7 @@ class Feed extends Model
         'title',
         'description',
         'image_url',
+        'premium_id',
     ];
 
     /**
