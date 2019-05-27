@@ -70,7 +70,7 @@ class MetricController extends Controller
             [
                 'name' => 'feeds',
                 'labels' => ['type' => 'expired_age'],
-                'value' => $feed_oldest->last_refresh->diffInSeconds(Carbon::now()),
+                'value' => $feed_oldest->last_refresh->diffInSeconds(Carbon::make('-1 hour')),
             ],
             [
                 'name' => 'items',
