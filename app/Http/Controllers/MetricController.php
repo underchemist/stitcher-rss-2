@@ -31,6 +31,14 @@ class MetricController extends Controller
             ->orderBy('last_refresh', 'asc')
             ->first();
 
+        $expiration = Carbon::make('-1 hour');
+
+        if ($feed_oldest->last_refresh < $expiration) {
+            $feed_oldest = $feed_oldest->last_refresh->diffInSeconds($expiration);
+        } else {
+            $feed_oldest = 0;
+        }
+
         $item_total = Item::count();
         $item_premium = Item::join('feeds', 'feeds.id', '=', 'items.feed_id')
             ->where('is_premium', 1)
@@ -70,7 +78,7 @@ class MetricController extends Controller
             [
                 'name' => 'feeds',
                 'labels' => ['type' => 'expired_age'],
-                'value' => $feed_oldest->last_refresh->diffInSeconds(Carbon::make('-1 hour')),
+                'value' => $feed_oldest,
             ],
             [
                 'name' => 'items',
