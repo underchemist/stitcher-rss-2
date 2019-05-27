@@ -71,7 +71,7 @@ class FeedCache extends Command
                 $this->refresh($feed, $force, $quick, $user);
             }
         } else {
-            Feed::chunk(100, function ($feeds) use ($force, $quick, $user) {
+            Feed::orderBy('last_refresh', 'asc')->chunk(100, function ($feeds) use ($force, $quick, $user) {
                 foreach ($feeds as $feed) {
                     $this->refresh($feed, $force, $quick, $user);
                 }
