@@ -116,5 +116,7 @@ config([
 ]);
 
 config('database.redis.client', 'phpredis');
+config('database.redis.default.persistent', true);
+config('database.redis.cache.persistent', true);
 
 return $app;
