@@ -43,8 +43,8 @@
 
             <!-- Mobile -->
             @if ($user)
-            <div id="menu-touch" class="navbar-menu">
-                <div class="navbar-start is-hidden-desktop">
+            <div id="menu-touch" class="navbar-menu is-hidden-desktop">
+                <div class="navbar-start">
                     <div class="navbar-item">
                         Stitcher User ID:
                         {{$user->stitcher_id}}
