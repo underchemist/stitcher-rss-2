@@ -102,6 +102,11 @@ $app->router->group([
 });
 
 config([
+    'database.redis.client' => 'phpredis',
+    'database.redis.default.persistent' => true,
+    'database.redis.default.persistent_id' => config('database.redis.default.host'),
+    'database.redis.cache.persistent' => true,
+    'database.redis.cache.persistent_id' => config('database.redis.cache.host'),
     'services' => [
         'stitcher' => [
             'url' => env('STITCHER_URL', 'https://stitcher.com/Service/'),
@@ -114,9 +119,5 @@ config([
         ],
     ],
 ]);
-
-config('database.redis.client', 'phpredis');
-config('database.redis.default.persistent', true);
-config('database.redis.cache.persistent', true);
 
 return $app;
