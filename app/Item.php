@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 class Item extends Model
 {
@@ -40,5 +41,16 @@ class Item extends Model
         }
 
         $this->attributes['itunes_duration'] = $duration;
+    }
+
+    public function getPubDateAttribute($pub_date)
+    {
+        $date = date_create($pub_date);
+
+        if (!$date) {
+            $date = new \DateTime('@0');
+        }
+
+        return Carbon::instance($date);
     }
 }
