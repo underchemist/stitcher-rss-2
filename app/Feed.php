@@ -19,6 +19,8 @@ class Feed extends Model
         'description',
         'image_url',
         'premium_id',
+        'last_refresh',
+        'last_change',
     ];
 
     /**
@@ -27,7 +29,8 @@ class Feed extends Model
      * @var array
      */
     protected $dates = [
-        'last_refresh'
+        'last_refresh',
+        'last_change',
     ];
 
     public function dueForRefresh()

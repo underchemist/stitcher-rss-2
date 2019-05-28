@@ -36,6 +36,7 @@ class RefreshShow
         }
 
         $response = $this->fetch($query);
+        $changed = false;
 
         if (Feed::isPremium($response->feed, $feed)) {
             // Once we've confirmed feed is premium, increase episode
@@ -46,7 +47,7 @@ class RefreshShow
 
             $episodes = $response->episodes->episode;
             $seasons = $this->extractSeasons($response->feed->season);
-            $this->processItems($feed, $episodes, $seasons);
+            $changed = $this->processItems($feed, $episodes, $seasons);
 
             $count = (int)$response->feed['episodeCount'];
 
@@ -56,12 +57,12 @@ class RefreshShow
                     $response = $this->fetch($query);
                     $episodes = $response->episodes->episode;
                     $seasons = $this->extractSeasons($response->feed->season);
-                    $this->processItems($feed, $episodes, $seasons);
+                    $changed = $changed || $this->processItems($feed, $episodes, $seasons);
                 }
             }
         }
 
-        $this->processFeed($feed, $response->feed);
+        $this->processFeed($feed, $response->feed, $changed);
     }
 
     protected function fetch(array $query): \SimpleXMLElement
@@ -75,11 +76,13 @@ class RefreshShow
         return $response;
     }
 
-    protected function processFeed(Feed $feed, \SimpleXMLElement $response)
-    {
-
+    protected function processFeed(
+        Feed $feed,
+        \SimpleXMLElement $response,
+        bool $changed
+    ) {
         if ((int)$response['id'] != $feed->id) {
-            $premium_id = $response['id'];
+            $premium_id = (int)$response['id'];
         } else {
             $premium_id = null;
         }
@@ -88,9 +91,13 @@ class RefreshShow
         $feed->title = (string)$response->name;
         $feed->description = (string)$response->description;
         $feed->image_url = (string)$response['imageURL'];
-        $feed->is_premium = Feed::isPremium($response, $feed);
-        $feed->last_refresh = Carbon::now();
+        $feed->is_premium = (int)Feed::isPremium($response, $feed);
 
+        if ($changed || $feed->isDirty()) {
+            $feed->last_change = Carbon::now();
+        }
+
+        $feed->last_refresh = Carbon::now();
         $feed->save();
 
         // Laravel overwrites ID on save
@@ -110,9 +117,13 @@ class RefreshShow
         return $seasons;
     }
 
-    protected function processItems(Feed $feed, \SimpleXMLElement $episodes, array $seasons)
-    {
+    protected function processItems(
+        Feed $feed,
+        \SimpleXMLElement $episodes,
+        array $seasons
+    ): bool {
         $items = $feed->items->keyBy('id');
+        $changed = false;
 
         foreach ($episodes as $xml_item) {
             $id = (int)$xml_item['id'];
@@ -135,10 +146,17 @@ class RefreshShow
             $item->description = Encoding::toUTF8($item->description, Encoding::ICONV_IGNORE);
             $item->description = Encoding::fixUTF8($item->description, Encoding::ICONV_IGNORE);
 
+            if (!$item->isDirty()) {
+                continue;
+            }
+
+            $changed = true;
             $item->save();
 
             // Laravel overwrites ID on save
             $item->id = $id;
         }
+
+        return $changed;
     }
 }

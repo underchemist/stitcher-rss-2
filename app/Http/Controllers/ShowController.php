@@ -123,7 +123,7 @@ class ShowController extends Controller
 
         $feed->load('items');
 
-        $date = $feed->last_refresh->format('D, d M Y H:i:s ') . 'GMT';
+        $date = $feed->last_change->format('D, d M Y H:i:s ') . 'GMT';
 
         if ($this->isCachedByClient($request, $date)) {
             return response('', 304);
