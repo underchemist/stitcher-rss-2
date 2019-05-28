@@ -55,7 +55,7 @@ deploy:prod:
       --exclude=storage
       --exclude=public/.well-known
   - ssh $DEST_USER@$DEST_HOST "cd $DEST_DIR; ./artisan migrate --force"
-  - ssh $DEST_USER@$DEST_HOST "cd $DEST_DIR; ./artisan cache:clear --force"
+  - ssh $DEST_USER@$DEST_HOST "cd $DEST_DIR; ./artisan cache:clear"
   when: manual
   only:
   - master
