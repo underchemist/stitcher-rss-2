@@ -63,12 +63,14 @@ class User extends Model
         $sub_expiration = (string)$xml['subscriptionExpiration'];
 
         if ($sub_state != 3 || !$sub_expiration) {
+            $this->touch();
             return false;
         }
 
         $expiration = new \DateTime($sub_expiration);
 
         if ($expiration == $this->expiration) {
+            $this->touch();
             return ($this->expiration >= new \DateTime());
         }
 
