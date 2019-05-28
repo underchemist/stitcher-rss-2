@@ -100,21 +100,10 @@ class ShowController extends Controller
             abort(404);
         }
 
-        $feed = Feed::where('id', $feed_id)->first();
-
-        if (!$feed) {
-            $feed = Feed::make(['id' => $feed_id]);
-
-            try {
-                $refresh->refresh($feed);
-            } catch (RequestException | ConnectException $ex) {
-                Log::notice("Refresh issue: " . $ex->getMessage());
-                return response("We had an issue reaching Stitcher.", 503);
-            }
-        }
+        $feed = $this->findOrMake($feed_id, $refresh);
 
         if (!$feed->is_premium && $feed->premium_id) {
-            $feed = Feed::where('id', $feed->premium_id)->first();
+            $feed = $this->findOrMake($feed->premium_id, $refresh);
         }
 
         if (!$feed->is_premium) {
@@ -138,6 +127,24 @@ class ShowController extends Controller
                 'ETag' => $date,
             ]
         );
+    }
+
+    protected function findOrMake(int $feed_id, RefreshShow $refresh): Feed
+    {
+        $feed = Feed::where('id', $feed_id)->first();
+
+        if (!$feed) {
+            $feed = Feed::make(['id' => $feed_id]);
+
+            try {
+                $refresh->refresh($feed);
+            } catch (RequestException | ConnectException $ex) {
+                Log::notice("Refresh issue: " . $ex->getMessage());
+                return response("We had an issue reaching Stitcher.", 503);
+            }
+        }
+
+        return $feed;
     }
 
     protected function isCachedByClient(Request $request, string $date): bool
