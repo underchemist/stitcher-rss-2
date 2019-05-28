@@ -123,9 +123,6 @@ class ShowController extends Controller
 
         $feed->load('items');
 
-        // @todo remove after feeds have updated
-        $date = $feed->last_change ?: $feed->last_refresh;
-
         $date = $feed->last_change->format('D, d M Y H:i:s ') . 'GMT';
 
         if ($this->isCachedByClient($request, $date)) {

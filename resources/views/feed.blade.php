@@ -6,7 +6,7 @@ use App\Item;
 use Illuminate\Support\Facades\Redis;
 
 $user = app(User::class);
-$cache_key = 'feed:' . $feed->id . $feed->updated_at->getTimestamp();
+$cache_key = 'feed:' . $feed->id . $feed->last_change->getTimestamp();
 $cache = Redis::get($cache_key);
 
 if ($cache) {
@@ -46,7 +46,7 @@ $atom['type'] = "application/rss+xml";
 $channel->addChild('link', $url);
 
 $channel->title = $feed->title;
-$channel->addChild('lastBuildDate', $feed->updated_at->format(DateTime::RSS));
+$channel->addChild('lastBuildDate', $feed->last_change->format(DateTime::RSS));
 $channel->addChild('block', 'yes', $itunes_ns);
 $channel->addChild('block', 'yes', $googleplay_ns);
 
