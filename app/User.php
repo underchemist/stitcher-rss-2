@@ -28,7 +28,7 @@ class User extends Model
         'expiration'
     ];
 
-    const PREMIUM_REFRESH_TIME = '6 hours';
+    const PREMIUM_REFRESH_INTERVAL = '2 hours';
 
     public function hasPremium(): bool
     {
@@ -41,7 +41,7 @@ class User extends Model
         }
 
         // Check against Stitcher's API if it's been more than threshold
-        $threshold = new \DateTime('-' . self::PREMIUM_REFRESH_TIME);
+        $threshold = new \DateTime('-' . self::PREMIUM_REFRESH_INTERVAL);
         if ($this->updated_at < $threshold) {
             return $this->checkPremiumStatus();
         }
