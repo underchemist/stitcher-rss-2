@@ -2,10 +2,6 @@
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-// As Stitcher appears to return timestamps relative to the Pacific
-// Timezone, treat all dates as Pacific.
-date_default_timezone_set('America/Los_Angeles');
-
 (new Laravel\Lumen\Bootstrap\LoadEnvironmentVariables(
     dirname(__DIR__)
 ))->bootstrap();
