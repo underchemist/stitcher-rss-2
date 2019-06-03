@@ -61,4 +61,13 @@ class Feed extends Model
 
         return $is_premium;
     }
+
+    public function setImageUrlAttribute($image_url)
+    {
+        $this->attributes['image_url'] = str_replace(
+            'https://secureimg.stitcher.com/',
+            'https://s3.amazonaws.com/stitcher.assets/',
+            $image_url
+        );
+    }
 }
