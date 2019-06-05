@@ -33,8 +33,8 @@ class ParametersMiddleware
         $query = parse_query($request->getUri()->getQuery());
 
         $query += [
-            'version' => 4.31,
-            'mode' => 'android',
+            'version' => 8.9,
+            'mode' => 'iPhoneApp',
             'udid' => config('services.stitcher.device'),
         ];
 
