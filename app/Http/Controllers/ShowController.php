@@ -100,10 +100,15 @@ class ShowController extends Controller
             abort(404);
         }
 
-        $feed = $this->findOrMake($feed_id, $refresh);
+        try {
+            $feed = $this->findOrMake($feed_id, $refresh);
 
-        if (!$feed->is_premium && $feed->premium_id) {
-            $feed = $this->findOrMake($feed->premium_id, $refresh);
+            if (!$feed->is_premium && $feed->premium_id) {
+                $feed = $this->findOrMake($feed->premium_id, $refresh);
+            }
+        } catch (RequestException | ConnectException $ex) {
+            Log::notice("Refresh issue: " . $ex->getMessage());
+            return response("We had an issue reaching Stitcher.", 503);
         }
 
         if (!$feed->is_premium) {
@@ -135,13 +140,7 @@ class ShowController extends Controller
 
         if (!$feed) {
             $feed = Feed::make(['id' => $feed_id]);
-
-            try {
-                $refresh->refresh($feed);
-            } catch (RequestException | ConnectException $ex) {
-                Log::notice("Refresh issue: " . $ex->getMessage());
-                return response("We had an issue reaching Stitcher.", 503);
-            }
+            $refresh->refresh($feed);
         }
 
         return $feed;
