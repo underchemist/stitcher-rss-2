@@ -51,7 +51,12 @@ class Feed extends Model
         \SimpleXMLElement $element,
         ?Feed $feed = null
     ): bool {
-        if ($feed !== null && (int)$element['id'] != $feed->id) {
+
+        $bypassed_feeds = explode(',', env('FEED_BYPASS', ''));
+
+        if (in_array((int)$element['id'], $bypassed_feeds)) {
+            $is_premium = true;
+        } elseif ($feed !== null && (int)$element['id'] != $feed->id) {
             $is_premium = false;
         } elseif ($element['authRequired'] && $element['authRequired']->__toString()) {
             $is_premium = false;
