@@ -57,7 +57,9 @@ class RefreshShow
                     $response = $this->fetch($query);
                     $episodes = $response->episodes->episode;
                     $seasons = $this->extractSeasons($response->feed->season);
-                    $changed = $changed || $this->processItems($feed, $episodes, $seasons);
+                    if ($this->processItems($feed, $episodes, $seasons)) {
+                        $changed = true;
+                    }
                 }
             }
         }
