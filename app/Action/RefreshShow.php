@@ -101,9 +101,6 @@ class RefreshShow
 
         $feed->last_refresh = Carbon::now();
         $feed->save();
-
-        // Laravel overwrites ID on save
-        $feed->id = (int)$response['id'];
     }
 
     protected function extractSeasons(\SimpleXMLElement $response): array
@@ -154,9 +151,6 @@ class RefreshShow
 
             $changed = true;
             $item->save();
-
-            // Laravel overwrites ID on save
-            $item->id = $id;
         }
 
         return $changed;
