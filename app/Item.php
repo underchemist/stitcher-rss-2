@@ -43,14 +43,12 @@ class Item extends Model
         $this->attributes['itunes_duration'] = $duration;
     }
 
-    public function getPubDateAttribute($pub_date)
+    protected function asDateTime($value)
     {
-        $date = date_create($pub_date);
-
-        if (!$date) {
-            $date = new \DateTime('@0');
+        try {
+            return parent::asDateTime($value);
+        } catch (\InvalidArgumentException $e) {
+            return Carbon::make('@0');
         }
-
-        return Carbon::instance($date);
     }
 }
