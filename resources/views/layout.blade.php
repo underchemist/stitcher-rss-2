@@ -108,7 +108,7 @@
     <section class="section has-text-centered">
         Made with ❤ by <a href="https://128.io">John Long</a>
         <br>
-        <a href="https://gitlab.com/adduc-projects/stitcher-rss">Source</a>
+        <a href="{{ env('SRC_URL') }}">Source</a>
         |
         Hosted on <a href="https://www.vultr.com/?ref=7807955-4F">Vultr</a>
     </section>

@@ -26,7 +26,7 @@
                 Your username/password to Stitcher is needed to verify
                 you're a subscriber to Stitcher Premium. Your credentials
                 are never stored on our system after your login, and
-                the <a href="https://gitlab.com/adduc-projects/stitcher-rss">
+                the <a href="{{ env('SRC_URL') }}">
                 source</a> to the service is available for those
                 technically inclined.
             </p>
